@@ -1,0 +1,11 @@
+name: runeshock-codeql
+
+queries:
+  - uses: security-and-quality
+
+paths:
+  - src/main/java
+  - src/test/java
+
+paths-ignore:
+  - build
