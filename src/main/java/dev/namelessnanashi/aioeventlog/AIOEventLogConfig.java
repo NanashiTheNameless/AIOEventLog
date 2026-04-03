@@ -79,10 +79,21 @@ public interface AIOEventLogConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "logDeaths",
+		name = "Log deaths",
+		description = "Log local player death events.",
+		position = 7
+	)
+	default boolean logDeaths()
+	{
+		return true;
+	}
+
+	@ConfigItem(
 		keyName = "logUserChatKeywords",
 		name = "Log user chat keywords",
 		description = "Log a keyword-detected event when a tracked keyword appears in user chat.",
-		position = 7
+		position = 8
 	)
 	default boolean logUserChatKeywords()
 	{
@@ -93,7 +104,7 @@ public interface AIOEventLogConfig extends Config
 		keyName = "logSystemChatKeywords",
 		name = "Log system chat keywords",
 		description = "Log a keyword-detected event when a tracked keyword appears in system, game, or filtered game messages.",
-		position = 8
+		position = 9
 	)
 	default boolean logSystemChatKeywords()
 	{
@@ -104,7 +115,7 @@ public interface AIOEventLogConfig extends Config
 		keyName = "keywords",
 		name = "Tracked keywords",
 		description = "Comma-separated keywords to detect in chat. Matching is case-insensitive.",
-		position = 9
+		position = 10
 	)
 	default String keywords()
 	{

@@ -21,6 +21,7 @@ import net.runelite.api.NPC;
 import net.runelite.api.Player;
 import net.runelite.api.Skill;
 import net.runelite.api.coords.WorldPoint;
+import net.runelite.api.events.ActorDeath;
 import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
@@ -36,8 +37,8 @@ import net.runelite.client.util.Text;
 
 @PluginDescriptor(
 	name = "AIOEventLog",
-	description = "All-in-one local event logging for damage, AFK, level-ups, and chat keywords",
-	tags = {"logging", "damage", "chat", "afk", "levels"}
+	description = "All-in-one local event logging for damage, deaths, AFK, level-ups, and chat keywords",
+	tags = {"logging", "damage", "death", "chat", "afk", "levels"}
 )
 public class AIOEventLogPlugin extends Plugin
 {
@@ -103,6 +104,7 @@ public class AIOEventLogPlugin extends Plugin
 			"log_afk", config.logAfk(),
 			"afk_timeout_seconds", config.afkTimeoutSeconds(),
 			"log_level_ups", config.logLevelUps(),
+			"log_deaths", config.logDeaths(),
 			"log_user_chat_keywords", config.logUserChatKeywords(),
 			"log_system_chat_keywords", config.logSystemChatKeywords()
 		);
@@ -214,6 +216,31 @@ public class AIOEventLogPlugin extends Plugin
 				"target_kind", combatActorKind(actor)
 			);
 		}
+	}
+
+	@Subscribe
+	public void onActorDeath(ActorDeath event)
+	{
+		if (!sessionActive || !config.logDeaths())
+		{
+			return;
+		}
+
+		Player localPlayer = client.getLocalPlayer();
+		Actor actor = event.getActor();
+		if (!(actor instanceof Player) || actor != localPlayer)
+		{
+			return;
+		}
+
+		writeEvent(
+			"player_death",
+			"account", sanitizePlayerName(localPlayer),
+			"world", client.getWorld(),
+			"tick", client.getTickCount(),
+			"interacting_with", combatActorLabel(actor.getInteracting()),
+			"interacting_with_kind", combatActorKind(actor.getInteracting())
+		);
 	}
 
 	@Subscribe

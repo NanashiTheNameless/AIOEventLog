@@ -1,5 +1,5 @@
 # AIOEventLog
-All-in-one event logging for damage, AFK, level-ups, and chat keywords.
+All-in-one event logging for damage, deaths, AFK, level-ups, and chat keywords.
 
 The plugin writes one Event record per line to `~/.runelite/AIOEventLog.log` (or `%USERPROFILE%\.runelite\AIOEventLog.log` on Windows) using a tab-delimited `key=value` format that is easy to read and understand.
 
@@ -7,13 +7,14 @@ String values are always quoted and escaped, while numbers and booleans stay unq
 
 Each startup begins with a fresh `AIOEventLog.log`. If `Archive previous log on startup` is enabled, the prior log is gzipped into `~/.runelite/AIOEventLog/` as a `.log.gz` archive first; otherwise it is cleared instead.
 
-Feature settings let you turn incoming damage, outgoing damage, AFK events, level-ups, and user-chat/system-chat keyword logging on or off independently.
+Feature settings let you turn incoming damage, outgoing damage, death events, AFK events, level-ups, and user-chat/system-chat keyword logging on or off independently.
 
 It records:
 
 - Session start and end events
 - Incoming damage on the local player
 - Outgoing damage dealt by the local player
+- Local player death events
 - AFK start and end events after a configurable inactivity timeout
 - Local skill level-ups
 - `keyword_detected` events for comma-separated keywords configured in the plugin panel, with user chat and system chat configurable separately
